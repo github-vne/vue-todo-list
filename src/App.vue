@@ -42,36 +42,33 @@ const addTodo = () => {
 </script>
 
 <template>
-	<main class="app">
-		<h1>Todo list (Vite / VUE / TS )</h1>
-		<section class="create-todo">
-			<h3>Create todo</h3>
-			<form @submit.prevent="addTodo">
-				<input
-					class="create-todo-content"
-					type="text"
-					placeholder="Enter your todo"
-					v-model="input_content"
-					data-testid="input_content"
-				/>
-				<div class="options" v-if="!!CATEGORY_LIST.length">
-					<label class="option" v-for="category in CATEGORY_LIST">
-						<input type="radio" name="category" :value="category" v-model="input_category" />
-						<span :class="`bubble ${category}`" />
-						<span>{{ CATEGORY_TITLE[category] }}</span>
-					</label>
-				</div>
-				<input
-					class="create-todo-button"
-					type="submit"
-					value="Add todo"
-					:disabled="isDisabledSubmit"
-					data-testid="add_todo"
-				/>
-			</form>
-		</section>
+	<main class="app space-column">
+		<h1 class="title">Todo list (Vue / Vite / TS )</h1>
+		<form @submit.prevent="addTodo" class="space-column">
+			<input
+				class="create-todo-content"
+				type="text"
+				placeholder="Enter your todo"
+				v-model="input_content"
+				data-testid="input_content"
+			/>
+			<div class="options" v-if="!!CATEGORY_LIST.length">
+				<label class="option" v-for="category in CATEGORY_LIST">
+					<input type="radio" name="category" :value="category" v-model="input_category" />
+					<span :class="`bubble ${category}`" />
+					<span>{{ CATEGORY_TITLE[category] }}</span>
+				</label>
+			</div>
+			<input
+				class="create-todo-button"
+				type="submit"
+				value="Add todo"
+				:disabled="isDisabledSubmit"
+				data-testid="add_todo"
+			/>
+		</form>
 
-		<section class="list" v-if="!!todos.length">
+		<section class="space-column" v-if="!!todos.length">
 			<Todo
 				v-for="todo in todos_asc"
 				:key="todo.createdAt"
@@ -86,12 +83,18 @@ const addTodo = () => {
 <style scoped>
 .app {
 	width: 500px;
-	margin: 0 auto;
+	margin: 30px auto;
 }
+
+.title {
+	text-align: center;
+	font-size: 24px;
+}
+
 .create-todo-content {
 	display: block;
 	width: 100%;
-	padding: 16px 8px;
+	padding: 16px;
 	color: var(--dark);
 	background-color: #fff;
 	border-radius: 8px;

@@ -38,6 +38,12 @@ body {
 	font-size: 16px;
 }
 
+.space-column {
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+}
+
 .bubble {
 	display: flex;
 	align-items: center;
