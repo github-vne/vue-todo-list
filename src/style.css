@@ -6,6 +6,7 @@
 	--grey: #888;
 	--dark: #313154;
 	--danger: #ff5b57;
+	--green: #73d13d;
 	--shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 	--default-glow: 0 0 4px rgba(58, 130, 238, 0.75);
 	--private-glow: 0 0 4px rgba(234, 64, 164, 0.75);
@@ -36,6 +37,7 @@ body {
 	background: var(--light);
 	color: var(--dark);
 	font-size: 16px;
+	min-width: 400px;
 }
 
 .space-column {

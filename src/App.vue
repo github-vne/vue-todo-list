@@ -4,29 +4,20 @@ import Todo from './components/Todo.vue';
 import {TTodo} from './types/todo';
 import {CATEGORY_LIST, CATEGORY_TITLE} from './constants/category';
 
+const isHiddenList = ref(false);
 const input_content = ref('');
 const input_category = ref<TTodo['category']>(null);
 const todos = ref<TTodo[]>([]);
 
+const isDisabledSubmit = computed(() => !input_content.value.trim() || !input_category.value);
 const todos_asc = computed(() => todos.value.sort((a, b) => b.createdAt - a.createdAt));
 
-const removeTodo = (todo: TTodo) => {
-	todos.value = todos.value.filter((t) => t !== todo);
-};
+const toggleVisible = () => (isHiddenList.value = !isHiddenList.value);
+const removeTodo = (todo: TTodo) => (todos.value = todos.value.filter((t) => t !== todo));
+const clearAll = () => (todos.value = []);
 
-onMounted(() => {
-	todos.value = JSON.parse(localStorage.getItem('todos') || '') || [];
-});
-
-watch(
-	todos,
-	(newValue) => {
-		localStorage.setItem('todos', JSON.stringify(newValue));
-	},
-	{deep: true},
-);
-
-const isDisabledSubmit = computed(() => !input_content.value.trim() || !input_category.value);
+onMounted(() => (todos.value = JSON.parse(localStorage.getItem('todos') || '') || []));
+watch(todos, (newValue) => localStorage.setItem('todos', JSON.stringify(newValue)), {deep: true});
 
 const addTodo = () => {
 	todos.value.push({
@@ -60,7 +51,7 @@ const addTodo = () => {
 				</label>
 			</div>
 			<input
-				class="create-todo-button"
+				class="action-button create-todo-button"
 				type="submit"
 				value="Add todo"
 				:disabled="isDisabledSubmit"
@@ -68,7 +59,16 @@ const addTodo = () => {
 			/>
 		</form>
 
-		<section class="space-column" v-if="!!todos.length">
+		<div class="options" v-if="!!todos.length">
+			<button @click="clearAll" class="action-button clear-all-button" data-testid="clear_all">
+				Clear all
+			</button>
+			<button @click="toggleVisible" class="action-button" data-testid="change_visible">
+				{{ isHiddenList ? 'Show' : 'Hide' }}
+			</button>
+		</div>
+
+		<section class="space-column" v-if="!!todos.length" v-show="!isHiddenList">
 			<Todo
 				v-for="todo in todos_asc"
 				:key="todo.createdAt"
@@ -82,7 +82,9 @@ const addTodo = () => {
 
 <style scoped>
 .app {
-	width: 500px;
+	padding: 16px;
+	width: 100%;
+	max-width: 500px;
 	margin: 30px auto;
 }
 
@@ -120,19 +122,27 @@ const addTodo = () => {
 	cursor: pointer;
 }
 
-.create-todo-button {
+.action-button {
 	display: block;
 	width: 100%;
 	padding: 16px;
 	color: #fff;
-	background-color: var(--primary);
 	border-radius: 8px;
-	cursor: pointer;
 	transition: 0.2s ease-in-out;
+	background-color: var(--default);
+	cursor: pointer;
 }
 
-.create-todo-button:disabled {
+.action-button:disabled {
 	color: #333;
 	background-color: var(--grey);
+}
+
+.create-todo-button {
+	background-color: var(--green);
+}
+
+.clear-all-button {
+	background-color: var(--danger);
 }
 </style>
