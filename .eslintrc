@@ -1,0 +1,6 @@
+{
+  "root": true,
+  "parser": "@typescript-eslint/parser",
+  "settings": { "react": {"version": "detect"} },
+  "plugins": ["@typescript-eslint"]
+}
