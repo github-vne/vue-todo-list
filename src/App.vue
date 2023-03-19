@@ -14,7 +14,10 @@ const todos_asc = computed(() => todos.value.sort((a, b) => b.createdAt - a.crea
 
 const toggleVisible = () => (isHiddenList.value = !isHiddenList.value);
 const removeTodo = (todo: TTodo) => (todos.value = todos.value.filter((t) => t !== todo));
-const clearAll = () => (todos.value = []);
+const clearAll = () => {
+	todos.value = [];
+	isHiddenList.value = false;
+};
 
 onMounted(() => (todos.value = JSON.parse(localStorage.getItem('todos') || '') || []));
 watch(todos, (newValue) => localStorage.setItem('todos', JSON.stringify(newValue)), {deep: true});
@@ -34,7 +37,7 @@ const addTodo = () => {
 
 <template>
 	<main class="app space-column">
-		<h1 class="title">Todo list (Vue / Vite / TS )</h1>
+		<h1 class="title">Todo List (Vue / Vite / TS )</h1>
 		<form @submit.prevent="addTodo" class="space-column">
 			<input
 				class="create-todo-content"
