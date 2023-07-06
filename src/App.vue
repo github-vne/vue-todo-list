@@ -37,7 +37,7 @@ const addTodo = () => {
 
 <template>
 	<main class="app space-column">
-		<h1 class="title">Todo List (Vue / Vite / TS )</h1>
+		<h1 class="title">Todo List</h1>
 		<form @submit.prevent="addTodo" class="space-column">
 			<input
 				class="create-todo-content"
